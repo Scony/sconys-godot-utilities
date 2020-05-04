@@ -1,4 +1,8 @@
-all: lint format-check
+all: tests lint format-check
+
+.PHONY: tests
+tests:
+	godot-server -d -s --path ../../ addons/gut/gut_cmdln.gd -gprefix='Test' -gdir=res://addons/sconys-godot-utilities/tests/ -gexit 2>/dev/null
 
 cloc:
 	cloc .
