@@ -12,6 +12,7 @@ Bunch of useful Godot Nodes and Scripts - complementary to [Godot Next](https://
 #### Nodes
 
 - `Circle2D` - texture-backed (hence ultra fast) Circle in 2D
+- `ReducedTextureButton` - regular button with ability to scale texture it uses
 
 #### Scripts
 
