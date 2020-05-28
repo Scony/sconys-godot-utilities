@@ -9,6 +9,15 @@ Bunch of useful Godot Nodes and Scripts - complementary to [Godot Next](https://
 
 ## Contents
 
+#### Autoloads
+
+- `Utils` - various helpers for everyday work, grouped into namespaces (classes with statics)
+    - `Plane2D` - similar to `Plane` but in 2D
+    - `Set` - implementation of python-like `set()`
+    - `RouletteWheel` - randomization helper
+    - `Region` - abstraction over set os positions in 2D space (`Vector2`s)
+    - (...) - various helpers in namespaces such as `Scene`, `Nod`, `NodTree`, `Line`, `Order`, `Dict`, `Float`, `Arr`, `Format`, `Img`, `HexTileMap` etc.
+
 #### Nodes
 
 - `Circle2D` - texture-backed (hence ultra fast) Circle in 2D

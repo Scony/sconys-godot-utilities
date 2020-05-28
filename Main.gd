@@ -12,8 +12,10 @@ func _enter_tree():
 		preload("./nodes/ReducedTextureButton.gd"),
 		preload("./assets/icons/Control.svg")
 	)
+	add_autoload_singleton("Utils", "res://addons/sconys-godot-utilities/scripts/utils/Utils.tscn")
 
 
 func _exit_tree():
+	remove_autoload_singleton("Utils")
 	remove_custom_type("ReducedTextureButton")
 	remove_custom_type("Circle2D")
