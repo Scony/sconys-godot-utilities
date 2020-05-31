@@ -10,10 +10,9 @@ var _movement_vector = Vector2(0, 0)
 func _unhandled_input(event):
 	if event is InputEventMouseButton:
 		if event.is_pressed() and event.button_index == BUTTON_WHEEL_UP:
-			size -= 1
+			size = clamp(size - 1, 1, camera_size_max)
 		if event.is_pressed() and event.button_index == BUTTON_WHEEL_DOWN:
-			size += 1
-		size = clamp(size, 1, camera_size_max)
+			size = clamp(size + 1, 1, camera_size_max)
 
 	if event is InputEventMouseMotion:
 		var viewport_size = get_viewport().size
