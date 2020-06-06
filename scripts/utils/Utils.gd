@@ -285,6 +285,11 @@ class Img:
 					image.set_pixelv(new_position_base + Vector2(1, 1) + corner, neighbour_0_color)
 		image.unlock()
 
+	static func scale_inplace(image: Image, factor: float, interpolation):
+		var image_size = image.get_size()
+		var target_size = image_size * factor
+		image.resize(target_size.x, target_size.y, interpolation)
+
 
 class HexTileMap:
 	class XOffset:
@@ -304,3 +309,8 @@ class HexTileMap:
 			Vector2(-1, 1),
 			Vector2(0, 1),
 		]
+
+
+class Colour:
+	static func approx_eq(a: Color, b: Color, epsilon: float):
+		return abs(a.r - b.r) <= epsilon and abs(a.g - b.g) <= epsilon and abs(a.b - b.b) <= epsilon

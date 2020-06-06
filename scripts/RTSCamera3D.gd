@@ -9,7 +9,7 @@ export var margin := 1
 export var movement_speed := 1.1
 export var rotation_speed := 0.005
 export var camera_size_max := 20
-export var collision_mask := 1 << 19
+export (int, LAYERS_3D_PHYSICS) var collision_mask := 0
 
 var _movement_vector = Vector2(0, 0)
 var _pivot_point_2d = null
