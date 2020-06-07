@@ -40,6 +40,19 @@ func peek():
 		return position
 
 
+func add(position):
+	_positions.add(position)
+
+
+func merge(positions):
+	_positions.merge(positions)
+
+
+func subtract(positions):
+	for position in positions:
+		_positions.erase(position)
+
+
 func get_random_position(rng):
 	if _positions.empty():
 		return null
@@ -149,6 +162,7 @@ func get_min_y():
 
 
 func get_moore_border():
+	"""border inside the region"""
 	var border = Utils.Set.new()
 	for position in _positions.iterate():
 		for offset in MOORE_NEIGHBOURHOOD:
@@ -156,3 +170,14 @@ func get_moore_border():
 				border.add(position)
 				break
 	return border.to_array()
+
+
+func get_moore_hull():
+	"""border outside the region"""
+	var hull = Utils.Set.new()
+	for position in _positions.iterate():
+		for offset in MOORE_NEIGHBOURHOOD:
+			if not _positions.has(position + offset):
+				hull.add(position + offset)
+				break
+	return hull.to_array()
