@@ -314,3 +314,18 @@ class HexTileMap:
 class Colour:
 	static func approx_eq(a: Color, b: Color, epsilon: float):
 		return abs(a.r - b.r) <= epsilon and abs(a.g - b.g) <= epsilon and abs(a.b - b.b) <= epsilon
+
+	static func mean(colors):
+		var sum = Vector3(0.0, 0.0, 0.0)
+		for color in colors:
+			sum += Vector3(color.r, color.g, color.b)
+		var mean_color = sum / colors.size()
+		return Color(mean_color.x, mean_color.y, mean_color.z)
+
+	static func uniq_mean(colors):
+		var uniq_colors = Arr.uniq(colors)
+		var sum = Vector3(0.0, 0.0, 0.0)
+		for color in uniq_colors:
+			sum += Vector3(color.r, color.g, color.b)
+		var mean_color = sum / uniq_colors.size()
+		return Color(mean_color.x, mean_color.y, mean_color.z)
