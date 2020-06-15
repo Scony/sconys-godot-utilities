@@ -1,3 +1,4 @@
+tool
 extends Node
 
 const RegionBase = preload('Region.gd')
@@ -329,3 +330,8 @@ class Colour:
 			sum += Vector3(color.r, color.g, color.b)
 		var mean_color = sum / uniq_colors.size()
 		return Color(mean_color.x, mean_color.y, mean_color.z)
+
+
+class Debug:
+	static func not_implemented():
+		assert(false)
