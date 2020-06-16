@@ -68,14 +68,22 @@ func get_n_random_positions(n, rng):
 	return Utils.Arr.slice(positions, 0, n)
 
 
+func get_n_random_positions_w_duplicates(n, rng):
+	var positions = _positions.to_array()
+	var random_positions = []
+	for _i in range(n):
+		random_positions.append(positions[rng.randi() % positions.size()])
+	return random_positions
+
+
 func get_n_random_well_spread_positions(n, rng, samples_num = 10):
 	"""Mitchell’s best-candidate algorithm"""
-	var random_points = self.get_n_random_positions((n - 1) * samples_num + 1, rng)
-	var well_spread_points = [random_points.pop_back()]
-	while not random_points.empty():
-		var samples = []
+	var sampling_space = PoolVector2Array(_positions.to_array())
+	var well_spread_points = PoolVector2Array([self.get_random_position(rng)])
+	for _i in range(n - 1):
+		var samples = PoolVector2Array()
 		for _i in range(samples_num):
-			samples.append(random_points.pop_back())
+			samples.append(sampling_space[rng.randi() % sampling_space.size()])
 		var evaluated_samples = []
 		for sample in samples:
 			var min_distance = null
@@ -85,8 +93,13 @@ func get_n_random_well_spread_positions(n, rng, samples_num = 10):
 				if min_distance == null or distance < min_distance:
 					min_distance = distance
 			evaluated_samples.append([min_distance, sample])
-		evaluated_samples.sort_custom(Utils.Order, "asc0")
-		well_spread_points.append(evaluated_samples.back()[1])
+		var max_min_distance = -1
+		var max_min_sample = null
+		for pair in evaluated_samples:
+			if pair[0] > max_min_distance:
+				max_min_distance = pair[0]
+				max_min_sample = pair[1]
+		well_spread_points.append(max_min_sample)
 	return well_spread_points
 
 
