@@ -335,3 +335,61 @@ class Colour:
 class Debug:
 	static func not_implemented():
 		assert(false)
+
+
+class Algorithm:
+	static func poisson_disc_sampling(area_size, radius, k, rng):
+		var cell_side = radius / sqrt(2)
+		var radius_squared = radius * radius
+		var outer_radius = 2 * radius
+		var outer_radius_squared = outer_radius * outer_radius
+		var pi_times_2 = PI * 2
+		var radiuses_diff = outer_radius_squared - radius_squared
+		var starting_point = Vector2(
+			rng.randf_range(0, area_size.x), rng.randf_range(0, area_size.y)
+		)
+		var starting_point_cell = Vector2(
+			int(starting_point.x / cell_side), int(starting_point.y / cell_side)
+		)
+		var grid = {starting_point_cell: starting_point}
+		var samples = [starting_point]
+		var active_list = Utils.Set.from_array([0])
+		while not active_list.empty():
+			var random_index = active_list.peek_random(rng)
+			var origin_sample = samples[random_index]
+			var success = false
+			for i in range(k):
+				var u = rng.randf_range(0, 1)
+				var v = rng.randf_range(0, 1)
+				var theta = pi_times_2 * u
+				var r = sqrt(radius_squared + v * radiuses_diff)
+				var new_sample = Vector2(
+					origin_sample.x + r * cos(theta), origin_sample.y + r * sin(theta)
+				)
+				var reject = (
+					new_sample.x < 0
+					or new_sample.x > area_size.x
+					or new_sample.y < 0
+					or new_sample.y > area_size.y
+				)
+				if reject:
+					continue
+				var new_sample_cell = Vector2(
+					int(new_sample.x / cell_side), int(new_sample.y / cell_side)
+				)
+				for x in range(-2, 3):
+					for y in range(-2, 3):
+						var point = grid.get(new_sample_cell + Vector2(x, y))
+						if point != null and new_sample.distance_to(point) < radius:
+							reject = true
+							break
+				if reject:
+					continue
+				samples.append(new_sample)
+				active_list.add(samples.size() - 1)
+				grid[new_sample_cell] = new_sample
+				success = true
+				break
+			if not success:
+				active_list.erase(random_index)
+		return samples

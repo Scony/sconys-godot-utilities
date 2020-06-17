@@ -23,12 +23,20 @@ func peek():
 		return item
 
 
+func peek_random(rng):
+	return _data.keys()[rng.randi() % _data.keys().size()]
+
+
 func pop():
 	if empty():
 		return null
 	var item = _data.keys()[0]
 	_data.erase(item)
 	return item
+
+
+func clear():
+	_data = {}
 
 
 func has(item):
