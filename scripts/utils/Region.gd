@@ -49,8 +49,12 @@ func merge(positions):
 
 
 func subtract(positions):
-	for position in positions:
-		_positions.erase(position)
+	if positions is Array:
+		for position in positions:
+			_positions.erase(position)
+	else:  # assuming Region
+		for position in positions.iterate():
+			_positions.erase(position)
 
 
 func get_random_position(rng):
