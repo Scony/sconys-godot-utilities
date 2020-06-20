@@ -25,7 +25,6 @@ func _input(event):
 
 func execute_command(command, args):
 	var root = get_node('/root')
-	var stage = root.find_node('Stage', true, false)
 	match command:
 		'ping':
 			return 'pong'
