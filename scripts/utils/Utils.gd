@@ -291,6 +291,49 @@ class Img:
 		var target_size = image_size * factor
 		image.resize(target_size.x, target_size.y, interpolation)
 
+	static func calculate_binary_variance_map(source_image: Image, moore_radius: int = 1):
+		var image_size = source_image.get_size()
+		var image = Image.new()
+		image.create(image_size.x, image_size.y, false, Image.FORMAT_RGBA8)
+		source_image.lock()
+		image.lock()
+		for x in range(image_size.x):
+			for y in range(image_size.y):
+				var pixel_pos = Vector2(x, y)
+				var source_color = source_image.get_pixelv(pixel_pos)
+				if source_color.a != 1.0:
+					continue
+				var variance = false
+				for u in range(-moore_radius, moore_radius + 1):
+					for v in range(-moore_radius, moore_radius + 1):
+						var neighbour_pos = pixel_pos + Vector2(u, v)
+						if (
+							neighbour_pos.x < 0
+							or neighbour_pos.x >= image_size.x
+							or neighbour_pos.y < 0
+							or neighbour_pos.y >= image_size.y
+							or source_image.get_pixelv(neighbour_pos) != source_color
+						):
+							variance = true
+				if variance:
+					image.set_pixelv(pixel_pos, Color(1.0, 1.0, 1.0))
+		image.unlock()
+		source_image.unlock()
+		return image
+
+	static func get_non_transparent_region(image: Image):
+		var image_size = image.get_size()
+		var points = []
+		image.lock()
+		for x in range(image_size.x):
+			for y in range(image_size.y):
+				var pixel_pos = Vector2(x, y)
+				var pixel_color = image.get_pixelv(pixel_pos)
+				if pixel_color.a == 1.0:
+					points.append(pixel_pos)
+		image.unlock()
+		return Utils.Region.new(points)
+
 
 class HexTileMap:
 	class XOffset:
