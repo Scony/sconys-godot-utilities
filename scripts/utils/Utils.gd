@@ -295,30 +295,35 @@ class Img:
 		var image_size = source_image.get_size()
 		var image = Image.new()
 		image.create(image_size.x, image_size.y, false, Image.FORMAT_RGBA8)
+		var source_pixels = {}
 		source_image.lock()
-		image.lock()
 		for x in range(image_size.x):
 			for y in range(image_size.y):
 				var pixel_pos = Vector2(x, y)
 				var source_color = source_image.get_pixelv(pixel_pos)
-				if source_color.a != 1.0:
+				if source_color.a == 1.0:
+					source_pixels[pixel_pos] = source_color
+		source_image.unlock()
+		var moore_neighbourhood = PoolVector2Array([])
+		for x in range(-moore_radius, moore_radius + 1):
+			for y in range(-moore_radius, moore_radius + 1):
+				moore_neighbourhood.append(Vector2(x, y))
+		image.lock()
+		for x in range(image_size.x):
+			for y in range(image_size.y):
+				var pixel_pos = Vector2(x, y)
+				if not pixel_pos in source_pixels:
 					continue
 				var variance = false
-				for u in range(-moore_radius, moore_radius + 1):
-					for v in range(-moore_radius, moore_radius + 1):
-						var neighbour_pos = pixel_pos + Vector2(u, v)
-						if (
-							neighbour_pos.x < 0
-							or neighbour_pos.x >= image_size.x
-							or neighbour_pos.y < 0
-							or neighbour_pos.y >= image_size.y
-							or source_image.get_pixelv(neighbour_pos) != source_color
-						):
-							variance = true
-				if variance:
-					image.set_pixelv(pixel_pos, Color(1.0, 1.0, 1.0))
+				for offset in moore_neighbourhood:
+					var neighbour_pos = pixel_pos + offset
+					if (
+						not neighbour_pos in source_pixels
+						or source_pixels[neighbour_pos] != source_pixels[pixel_pos]
+					):
+						image.set_pixelv(pixel_pos, Color(1.0, 1.0, 1.0))
+						break
 		image.unlock()
-		source_image.unlock()
 		return image
 
 	static func get_non_transparent_region(image: Image):
