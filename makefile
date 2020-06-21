@@ -18,3 +18,11 @@ format-check:
 
 lint:
 	find -name '*.gd' | xargs gdlint
+
+setup:
+	godot --gdnative-generate-json-api api.json
+	cd godot-cpp && scons platform=linux generate_bindings=yes && cd ..
+
+build:
+	g++ -fPIC -o bin/GeometryNG.o -c native/GeometryNG.cpp -g -O3 -std=c++14 -Igodot-cpp/include -Igodot-cpp/include/core -Igodot-cpp/include/gen -Igodot-cpp/godot_headers
+	g++ -o bin/libaddon.so -shared bin/GeometryNG.o -Lgodot-cpp/bin -lgodot-cpp.linux.debug.64
