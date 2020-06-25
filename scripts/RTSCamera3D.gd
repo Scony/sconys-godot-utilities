@@ -95,6 +95,18 @@ func _physics_process(delta):
 		global_translate(movement_vector_3d * real_delta * movement_speed * size)
 
 
+func get_ray_intersection(mouse_pos = null):
+	if mouse_pos == null:
+		mouse_pos = get_viewport().get_mouse_position()
+	var ray_begin = project_ray_origin(mouse_pos)
+	var ray_end = ray_begin + project_ray_normal(mouse_pos) * 1000
+	var space_state = get_world().direct_space_state
+	var ray_intersection = space_state.intersect_ray(ray_begin, ray_end, [], collision_mask)
+	if 'position' in ray_intersection:
+		return ray_intersection['position']
+	return null
+
+
 func _calculate_pivot_point_3d():
 	var screen_center_pos_2d = get_viewport().size / 2.0
 	var ray_begin = project_ray_origin(screen_center_pos_2d)
