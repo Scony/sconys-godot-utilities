@@ -57,6 +57,12 @@ func subtract(positions):
 			_positions.erase(position)
 
 
+func intersect(region):
+	for position in _positions.to_array():
+		if not region.has(position):
+			_positions.erase(position)
+
+
 func get_random_position(rng):
 	if _positions.empty():
 		return null
@@ -196,5 +202,41 @@ func get_moore_hull():
 		for offset in MOORE_NEIGHBOURHOOD:
 			if not _positions.has(position + offset):
 				hull.add(position + offset)
-				break
 	return hull.to_array()
+
+
+func get_moore_border_within_domain(domain):
+	"""border inside the region and within domain"""
+	var border = Utils.Set.new()
+	for position in _positions.iterate():
+		for offset in MOORE_NEIGHBOURHOOD:
+			var neighbour = position + offset
+			if not _positions.has(neighbour) and domain.has(neighbour):
+				border.add(position)
+				break
+	return border.to_array()
+
+
+func remove_moore_border_within_domain(domain):
+	"""border inside the region and within domain"""
+	var border = Utils.Set.new()
+	for position in _positions.iterate():
+		for offset in MOORE_NEIGHBOURHOOD:
+			var neighbour = position + offset
+			if not _positions.has(neighbour) and domain.has(neighbour):
+				border.add(position)
+				break
+	for position in border.iterate():
+		_positions.erase(position)
+
+
+func add_moore_hull_within_domain(domain):
+	"""border outside the region and within domain"""
+	var hull = Utils.Set.new()
+	for position in _positions.iterate():
+		for offset in MOORE_NEIGHBOURHOOD:
+			var neighbour = position + offset
+			if not _positions.has(neighbour) and domain.has(neighbour):
+				hull.add(neighbour)
+	for position in hull.iterate():
+		_positions.add(position)
