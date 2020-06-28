@@ -441,3 +441,19 @@ class Algorithm:
 			if not success:
 				active_list.erase(random_index)
 		return samples
+
+
+class Chunk2D:
+	static func generate_chunks(area_size: Vector2, chunk_size: Vector2):
+		var chunks = {}
+		for x in range(int(floor(area_size.x / chunk_size.x)) + 1):
+			for y in range(int(floor(area_size.y / chunk_size.y)) + 1):
+				chunks[Vector2(x * chunk_size.x, y * chunk_size.y)] = []
+		return chunks
+
+	static func get_chunk(position, chunk_size: Vector2):
+		if position is Vector3:
+			return Vector2(
+				floor(position.x / chunk_size.x) * chunk_size.x,
+				floor(position.z / chunk_size.y) * chunk_size.y
+			)
