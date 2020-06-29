@@ -1,7 +1,7 @@
 tool
 extends Node
 
-const RegionBase = preload('Region.gd')
+const Region = preload('Region.gd')
 const SetBase = preload('Set.gd')
 const Plane2D = preload('Plane2D.gd')
 
@@ -236,23 +236,6 @@ class Set:
 		for item in array:
 			set.add(item)
 		return set
-
-
-class Region:
-	extends RegionBase
-
-	func _init(positions).(positions):
-		pass
-
-	static func calculate_von_neumann_overlay(positions):
-		var positions_set = Set.from_array(positions)
-		var overlay = Set.new()
-		for position in positions:
-			for offset in VON_NEUMANN_NEIGHBOURHOOD:
-				var potential_overlay_position = position + offset
-				if not positions_set.has(potential_overlay_position):
-					overlay.add(potential_overlay_position)
-		return overlay.to_array()
 
 
 class Img:

@@ -92,7 +92,7 @@ func get_n_random_well_spread_positions(n, rng, samples_num = 10):
 	var well_spread_points = PoolVector2Array([self.get_random_position(rng)])
 	for _i in range(n - 1):
 		var samples = PoolVector2Array()
-		for _i in range(samples_num):
+		for _j in range(samples_num):
 			samples.append(sampling_space[rng.randi() % sampling_space.size()])
 		var evaluated_samples = []
 		for sample in samples:
