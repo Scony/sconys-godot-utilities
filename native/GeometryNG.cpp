@@ -32,9 +32,9 @@ class GeometryNG : public Reference
       ret.append(Vector2(d.coords[2 * d.triangles[i + 1]], d.coords[2 * d.triangles[i + 1] + 1]));
       ret.append(Vector2(d.coords[2 * d.triangles[i + 2]], d.coords[2 * d.triangles[i + 2] + 1]));
     }
-    Godot::print(
-        ("Successfully triangulated " + std::to_string(input_points.size() / 2) + " vertices")
-            .c_str()); // TODO: seek godot's itos()
+    Godot::print(("GeometryNG::triangulate_delaunay_2d(): successfully triangulated " +
+                  std::to_string(input_points.size()) + " vertices")
+                     .c_str()); // TODO: seek godot's itos()
     return ret;
   }
 

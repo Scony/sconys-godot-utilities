@@ -22,8 +22,10 @@ func _ready():
 	assert(Utils.Float.approx_eq(rotation_degrees.y, EXPECTED_Y_ROTATION_DEGREES, 0.01))
 
 
+# TODO: split
 func _unhandled_input(event):
 	if event is InputEventMouseButton:
+		# TODO: input map
 		if event.is_pressed() and event.button_index == BUTTON_WHEEL_UP:
 			size = clamp(size - 1, 1, camera_size_max)
 		if event.is_pressed() and event.button_index == BUTTON_WHEEL_DOWN:
@@ -107,6 +109,16 @@ func get_ray_intersection(mouse_pos = null, a_collision_mask = null):
 	if 'position' in ray_intersection:
 		return ray_intersection['position']
 	return null
+
+
+func set_position_safely(target_position: Vector3):
+	var screen_center_pos_2d = get_viewport().size / 2.0
+	var camera_ray = project_ray_normal(screen_center_pos_2d)
+	var target_plane = Plane(0, 1, 0, target_position.y)
+	var intersection = target_plane.intersects_ray(transform.origin, camera_ray)
+	var offset = target_position - intersection
+	offset.y = 0.0  # it may be not be exactly 0 but e.g. -0.000003 so let's force 0
+	transform.origin += offset
 
 
 func _calculate_pivot_point_3d():
