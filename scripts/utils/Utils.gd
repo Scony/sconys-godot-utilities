@@ -93,6 +93,11 @@ class Order:
 			return true
 		return false
 
+	static func desc1(a, b):
+		if a[1] > b[1]:
+			return true
+		return false
+
 
 class Dict:
 	static func update(src, data):
@@ -119,6 +124,12 @@ class Dict:
 		for key in keys:
 			d[key] = default_value
 		return d
+
+	static func items(d):
+		var pairs = []
+		for k in d:
+			pairs.append([k, d[k]])
+		return pairs
 
 
 class Float:
