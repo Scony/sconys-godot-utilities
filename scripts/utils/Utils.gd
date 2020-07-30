@@ -456,3 +456,48 @@ class Chunk2D:
 				floor(position.x / chunk_size.x) * chunk_size.x,
 				floor(position.z / chunk_size.y) * chunk_size.y
 			)
+
+
+class Navi2D:
+	static func irregularize_path(navigation_2d, path, spacing_lb, dispersion_ub):
+		"""makes a path more irregular (but still valid)"""
+		if path.size() <= 1:
+			return path
+		var rng = RandomNumberGenerator.new()
+		rng.seed = _calculate_path_seed(path)
+		var new_path = PoolVector2Array()
+		for i in range(path.size() - 1):
+			var begin = path[i]
+			if new_path.empty():
+				new_path.append(begin)
+			else:
+				new_path.append_array(_make_safe_path(navigation_2d, new_path, begin))
+			var end = path[i + 1]
+			var endwards_vec = (end - begin).normalized()
+			var new_points_num = int((begin.distance_to(end) - spacing_lb) / spacing_lb)
+			if new_points_num == 0:
+				new_path.append(end)
+				continue
+			var step = 1.0 / (new_points_num + 1)
+			for j in range(1, new_points_num + 1):
+				var new_point = begin.linear_interpolate(end, step * j)
+				var side_vec = endwards_vec.rotated(PI / 2.0)
+				var dispersion = rng.randf_range(-dispersion_ub, dispersion_ub)
+				var dispersed_point = new_point + side_vec * dispersion
+				if navigation_2d.get_closest_point(dispersed_point) == dispersed_point:
+					new_point = dispersed_point
+				new_path.append_array(_make_safe_path(navigation_2d, new_path, new_point))
+			new_path.append_array(_make_safe_path(navigation_2d, new_path, end))
+		return new_path
+
+	static func _calculate_path_seed(path):
+		var a_seed = 0
+		for point in path:
+			a_seed += (int(point.x) + int(point.y)) % 104729
+		return a_seed
+
+	static func _make_safe_path(navigation_2d, base_path, new_point):
+		var connection_path = navigation_2d.get_simple_path(
+			base_path[base_path.size() - 1], new_point
+		)
+		return Arr.slice(connection_path, 1)
