@@ -459,12 +459,38 @@ class Chunk2D:
 
 
 class Navi2D:
+	const SEED_UB = 104729
+
 	static func irregularize_path(navigation_2d, path, spacing_lb, dispersion_ub):
 		"""makes a path more irregular (but still valid)"""
+		var a_seed = _calculate_path_seed(path)
+		return _irregularize_path(navigation_2d, path, spacing_lb, dispersion_ub, a_seed)
+
+	static func irregularize_path_tryhard(
+		navigation_2d, path, spacing_lb, dispersion_ub, extra_length_factor_lb, retries
+	):
+		"""makes a path more irregular (but still valid) w/ semi-guaranteed extra length"""
+		var path_length = Line.length(path)
+		var a_seed = _calculate_path_seed(path)
+		var irregular_path = _irregularize_path(
+			navigation_2d, path, spacing_lb, dispersion_ub, a_seed
+		)
+		var irregular_path_length = Line.length(irregular_path)
+		for _i in range(retries):
+			if irregular_path_length / path_length >= 1.0 + extra_length_factor_lb:
+				break
+			a_seed = (a_seed + 1) % SEED_UB
+			irregular_path = _irregularize_path(
+				navigation_2d, path, spacing_lb, dispersion_ub, a_seed
+			)
+			irregular_path_length = Line.length(irregular_path)
+		return irregular_path
+
+	static func _irregularize_path(navigation_2d, path, spacing_lb, dispersion_ub, a_seed):
 		if path.size() <= 1:
 			return path
 		var rng = RandomNumberGenerator.new()
-		rng.seed = _calculate_path_seed(path)
+		rng.seed = a_seed
 		var new_path = PoolVector2Array()
 		for i in range(path.size() - 1):
 			var begin = path[i]
@@ -493,7 +519,7 @@ class Navi2D:
 	static func _calculate_path_seed(path):
 		var a_seed = 0
 		for point in path:
-			a_seed += (int(point.x) + int(point.y)) % 104729
+			a_seed += (int(point.x) + int(point.y)) % SEED_UB
 		return a_seed
 
 	static func _make_safe_path(navigation_2d, base_path, new_point):
