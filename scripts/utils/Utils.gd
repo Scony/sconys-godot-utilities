@@ -486,6 +486,19 @@ class Navi2D:
 			irregular_path_length = Line.length(irregular_path)
 		return irregular_path
 
+	static func get_longest_path_towards_target(
+		navigation_2d, source, destination, samples_num = 10, func_name = 'get_simple_path'
+	):
+		"""returns a path which end is as close to destination as possible"""
+		var step = 1.0 / samples_num
+		for i in range(samples_num):
+			var sample_destination = source.linear_interpolate(destination, 1.0 - i * step)
+			# var path = get_simple_path(source, sample_destination)
+			var path = navigation_2d.call(func_name, source, sample_destination)
+			if not path.empty() and path[path.size() - 1] == sample_destination:
+				return path
+		return PoolVector2Array([source, source])
+
 	static func _irregularize_path(navigation_2d, path, spacing_lb, dispersion_ub, a_seed):
 		if path.size() <= 1:
 			return path
