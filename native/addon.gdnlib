@@ -7,7 +7,7 @@ reloadable=false
 
 [entry]
 
-X11.64="res://addons/sconys-godot-utilities/bin/libaddon.so"
+X11.64="res://addons/sconys-godot-utilities/bin/x11/libaddon.so"
 
 [dependencies]
 

@@ -1,2 +1,4 @@
 bin/
 api.json
+.sconsign.dblite
+*.os
