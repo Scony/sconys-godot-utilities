@@ -19,6 +19,9 @@ format-check:
 lint:
 	find -name '*.gd' | xargs gdlint
 
+init:
+	git submodule update --init --recursive
+
 setup:
 	cd godot-cpp && scons platform=linux target=release generate_bindings=yes && cd ..
 
