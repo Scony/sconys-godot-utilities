@@ -47,6 +47,23 @@ class Nod:
 
 
 class NodTree:
+	var _tree = null
+
+	func _init(tree):
+		"""usage: Utils.NodTree.new(get_tree())"""
+		_tree = tree
+
+	func change_current(ref):
+		"""more flexible version of get_tree().change_scene_to()"""
+		var root = _tree.get_root()
+		var current_scene = _tree.current_scene
+		if current_scene != null:
+			root.remove_child(current_scene)
+			current_scene.queue_free()
+		root.add_child(ref)
+		_tree.current_scene = ref
+		return ref
+
 	class NodeGathererByName:
 		var _nodes = []
 		var _name = null
