@@ -355,6 +355,13 @@ class Img:
 		image.unlock()
 		return Utils.Region.new(points)
 
+	static func viewport_to_texture(viewport):
+		var image_copy = viewport.get_texture().get_data()
+		image_copy.flip_y()
+		var texture = ImageTexture.new()
+		texture.create_from_image(image_copy, 0)
+		return texture
+
 
 class HexTileMap:
 	class XOffset:
