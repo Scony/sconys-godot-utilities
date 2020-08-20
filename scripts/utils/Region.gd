@@ -1,3 +1,4 @@
+# gdlint: ignore=max-public-methods
 const VON_NEUMANN_NEIGHBOURHOOD = [
 	Vector2(0, 1),
 	Vector2(0, -1),
