@@ -564,3 +564,20 @@ class Navi2D:
 			base_path[base_path.size() - 1], new_point
 		)
 		return Arr.slice(connection_path, 1)
+
+
+class FileSystem:
+	static func get_files_from_dir(path):
+		var directory = Directory.new()
+		if not directory.dir_exists(path):
+			return []
+		directory.open(path)
+		directory.list_dir_begin(true, true)
+		var file_paths = []
+		while true:
+			var file_name = directory.get_next()
+			if file_name == '':
+				break
+			file_paths.append('{0}/{1}'.format([path, file_name]))
+		directory.list_dir_end()
+		return file_paths
