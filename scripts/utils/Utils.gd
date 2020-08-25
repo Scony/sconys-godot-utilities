@@ -355,9 +355,21 @@ class Img:
 		image.unlock()
 		return Utils.Region.new(points)
 
-	static func viewport_to_texture(viewport):
+	static func remove_alpha_inplace(image: Image):
+		image.lock()
+		for x in range(image.get_size().x):
+			for y in range(image.get_size().y):
+				var pos = Vector2(x, y)
+				var color = image.get_pixelv(pos)
+				color.a = 1.0
+				image.set_pixelv(pos, color)
+		image.unlock()
+
+	static func viewport_to_texture(viewport, remove_alpha = true):
 		var image_copy = viewport.get_texture().get_data()
 		image_copy.flip_y()
+		if remove_alpha:
+			remove_alpha_inplace(image_copy)
 		var texture = ImageTexture.new()
 		texture.create_from_image(image_copy, 0)
 		return texture
