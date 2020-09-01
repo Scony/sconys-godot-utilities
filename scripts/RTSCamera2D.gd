@@ -29,7 +29,7 @@ func _unhandled_input(event):
 		_fix_position()
 
 
-func _physics_process(delta):
+func _process(delta):
 	var movement_vec = _calculate_movement_direction().normalized()
 	var real_delta = delta / Engine.time_scale
 	if movement_vec != Vector2(0, 0):

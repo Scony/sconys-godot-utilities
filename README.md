@@ -1,4 +1,4 @@
-# Scony' Godot Utilities
+# Scony's Godot Utilities
 
 Bunch of useful Godot Nodes and Scripts - complementary to [Godot Next](https://github.com/willnationsdev/godot-next) and one of [TheDuriel's](https://github.com/TheDuriel/DurielsGodotUtilities).
 
