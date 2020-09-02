@@ -55,8 +55,3 @@ func test_custom_fsm():
 	sut.set_state()
 	assert_eq(sut.call_sequence, [1, 2, 3, 4], "call sequence should match")
 ```
-
-#### Native scripts
-
-- `GeometryNG`
-    - `triangulate_delaunay_2d` - alternative (correct & 11.5x faster than `Geometry.triangulate_delaunay_2d`) implementation of Delaunay triangulation. Takes PoolVector2Array in and spits PoolVector2Array out.
