@@ -153,6 +153,19 @@ class Dict:
 			pairs.append([k, d[k]])
 		return pairs
 
+	static func deepget(dict, path_of_keys, default=null):
+		# TODO: docstring
+		# TODO: tests & corner cases
+		var keys = path_of_keys.split(':')
+		if keys.empty():
+			return default
+		var current_node = dict
+		for key in keys:
+			if not key in current_node:
+				return default
+			current_node = current_node[key]
+		return current_node
+
 
 class Float:
 	static func approx_eq(a: float, b: float, epsilon):
