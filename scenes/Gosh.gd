@@ -38,7 +38,12 @@ func execute_command(command, args):
 			if node != null:
 				return _get_node_statistics_string(get_node(node_path), depth)
 			return
-	return 'unknown command'
+		'commands':
+			_refresh_handlers()
+			var available_commands = []
+			for command_handler in _command_handlers:
+				available_commands += command_handler.provided_commands()
+			return PoolStringArray(available_commands).join("\n")
 
 
 func provided_commands():
@@ -46,6 +51,7 @@ func provided_commands():
 		'ping',
 		'time_scale',
 		'node_statistics',
+		'commands',
 	]
 
 
