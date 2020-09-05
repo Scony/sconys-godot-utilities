@@ -91,10 +91,16 @@ func _unhandled_input(event):
 func _physics_process(delta):
 	if _movement_vector != Vector2(0, 0):
 		var real_delta = delta / Engine.time_scale
-		var movement_vector_3d = Vector3(_movement_vector.x, 0, _movement_vector.y).rotated(
+		var scaled_movement_vector_2d = (
+			_movement_vector.normalized()
+			* real_delta
+			* Vector2(movement_speed, movement_speed * 2.0)
+			* size
+		)
+		var movement_vector_3d = Vector3(scaled_movement_vector_2d.x, 0, scaled_movement_vector_2d.y).rotated(
 			Vector3(0, 1, 0), rotation.y
 		)
-		global_translate(movement_vector_3d * real_delta * movement_speed * size)
+		global_translate(movement_vector_3d)
 
 
 func get_ray_intersection(mouse_pos = null, a_collision_mask = null):
