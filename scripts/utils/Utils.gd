@@ -606,3 +606,10 @@ class FileSystem:
 			file_paths.append('{0}/{1}'.format([path, file_name]))
 		directory.list_dir_end()
 		return file_paths
+
+
+class RNG:
+	static func from_seed(a_seed):
+		var rng = RandomNumberGenerator.new()
+		rng.seed = a_seed
+		return rng
