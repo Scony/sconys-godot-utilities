@@ -153,7 +153,7 @@ class Dict:
 			pairs.append([k, d[k]])
 		return pairs
 
-	static func deepget(dict, path_of_keys, default=null):
+	static func deepget(dict, path_of_keys, default = null):
 		# TODO: docstring
 		# TODO: tests & corner cases
 		var keys = path_of_keys.split(':')
