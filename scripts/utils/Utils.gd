@@ -100,6 +100,11 @@ class Line:
 
 
 class Order:
+	static func asc(a, b):
+		if a < b:
+			return true
+		return false
+
 	static func asc0(a, b):
 		if a[0] < b[0]:
 			return true
@@ -107,6 +112,11 @@ class Order:
 
 	static func asc1(a, b):
 		if a[1] < b[1]:
+			return true
+		return false
+
+	static func desc(a, b):
+		if a > b:
 			return true
 		return false
 
