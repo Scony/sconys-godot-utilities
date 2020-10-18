@@ -388,7 +388,7 @@ class Img:
 				image.set_pixelv(pos, color)
 		image.unlock()
 
-	static func viewport_to_texture(viewport, remove_alpha = true):
+	static func viewport_to_texture(viewport, remove_alpha = false):
 		var image_copy = viewport.get_texture().get_data()
 		image_copy.flip_y()
 		if remove_alpha:
