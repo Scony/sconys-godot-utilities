@@ -182,6 +182,11 @@ class Float:
 		return abs(a - b) <= epsilon
 
 
+class Vec2:
+	static func approx_eq(a: Vector2, b: Vector2, epsilon):
+		return a.distance_to(b) <= epsilon
+
+
 class Arr:
 	static func sum(r):
 		var total = 0
