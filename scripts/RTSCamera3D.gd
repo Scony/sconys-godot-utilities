@@ -61,11 +61,9 @@ func _unhandled_input(event):
 			_move(mouse_pos)
 
 
-func get_ray_intersection(mouse_pos = null, a_collision_mask = null):
+func get_ray_intersection(mouse_pos = null, a_collision_mask = collision_mask):
 	if mouse_pos == null:
 		mouse_pos = get_viewport().get_mouse_position()
-	if a_collision_mask == null:
-		a_collision_mask = collision_mask
 	var ray_begin = project_ray_origin(mouse_pos)
 	var ray_end = ray_begin + project_ray_normal(mouse_pos) * 1000
 	var space_state = get_world().direct_space_state
@@ -73,6 +71,10 @@ func get_ray_intersection(mouse_pos = null, a_collision_mask = null):
 	if 'position' in ray_intersection:
 		return ray_intersection['position']
 	return null
+
+
+func get_ray_intersection_with_plane(mouse_pos, plane):
+	return plane.intersects_ray(project_ray_origin(mouse_pos), project_ray_normal(mouse_pos))
 
 
 func set_position_safely(target_position: Vector3):
