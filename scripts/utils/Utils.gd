@@ -36,6 +36,11 @@ class Scene:
 
 
 class Nod:
+	static func remove_children(node):
+		for child in node.get_children():
+			node.remove_child(child)
+			child.queue_free()
+
 	static func move_children(from, to):
 		for child in from.get_children():
 			from.remove_child(child)
