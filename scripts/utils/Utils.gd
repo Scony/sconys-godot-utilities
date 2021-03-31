@@ -303,6 +303,13 @@ class Set:
 			set.add(item)
 		return set
 
+	static func subtracted(minuend, subtrahend):
+		var difference = Set.new()
+		for item in minuend.iterate():
+			if not subtrahend.has(item):
+				difference.add(item)
+		return difference
+
 
 class Img:
 	static func expand_x3_corner_smoothing(image):
