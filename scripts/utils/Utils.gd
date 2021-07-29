@@ -181,6 +181,12 @@ class Dict:
 			current_node = current_node[key]
 		return current_node
 
+	static func from_items(items):
+		var d = {}
+		for item in items:
+			d[item[0]] = item[1]
+		return d
+
 
 class Float:
 	static func approx_eq(a: float, b: float, epsilon):
