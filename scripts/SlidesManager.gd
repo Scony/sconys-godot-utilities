@@ -1,6 +1,6 @@
 extends Node
 
-export (NodePath) var slide_container_path = null
+export(NodePath) var slide_container_path = null
 
 var _available_slides = {}
 var _slide_history = []

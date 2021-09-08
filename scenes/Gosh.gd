@@ -4,15 +4,15 @@ var gosh_handler = self
 
 var _command_handlers = []
 
-onready var _panel = find_node('Panel')
-onready var _text = find_node('RichTextLabel')
-onready var _edit = find_node('LineEdit')
+onready var _panel = find_node("Panel")
+onready var _text = find_node("RichTextLabel")
+onready var _edit = find_node("LineEdit")
 
 
 func _ready():
 	_panel.hide()
 	_text.clear()
-	_text.add_text('Welcome to debug console')
+	_text.add_text("Welcome to debug console")
 	_edit.clear()
 
 
@@ -24,21 +24,21 @@ func _input(event):
 
 
 func execute_command(command, args):
-	var root = get_node('/root')
+	var root = get_node("/root")
 	match command:
-		'ping':
-			return 'pong'
-		'time_scale':
+		"ping":
+			return "pong"
+		"time_scale":
 			Engine.time_scale = float(args[0])
 			return
-		'node_statistics':
+		"node_statistics":
 			var depth = 2 if args.size() < 2 else int(args[1])
-			var node_path = '/root' if args.size() < 1 else args[0]
+			var node_path = "/root" if args.size() < 1 else args[0]
 			var node = get_node(node_path)
 			if node != null:
 				return _get_node_statistics_string(get_node(node_path), depth)
 			return
-		'commands':
+		"commands":
 			_refresh_handlers()
 			var available_commands = []
 			for command_handler in _command_handlers:
@@ -48,10 +48,10 @@ func execute_command(command, args):
 
 func provided_commands():
 	return [
-		'ping',
-		'time_scale',
-		'node_statistics',
-		'commands',
+		"ping",
+		"time_scale",
+		"node_statistics",
+		"commands",
 	]
 
 
@@ -64,18 +64,18 @@ func _toggle_visibility():
 
 func _refresh_handlers():
 	_command_handlers = []
-	Utils.NodTree.traverse(get_node('/root'), self, '_gather_handler_if_present')
+	Utils.NodTree.traverse(get_node("/root"), self, "_gather_handler_if_present")
 
 
 func _gather_handler_if_present(node):
-	var handler = node.get('gosh_handler')
+	var handler = node.get("gosh_handler")
 	if handler != null:
 		_command_handlers.append(handler)
 
 
 func _on_edit_text_entered(command):
-	_text.add_text('\n> ' + command)
-	var command_chunks = command.split(' ')
+	_text.add_text("\n> " + command)
+	var command_chunks = command.split(" ")
 	for command_handler in _command_handlers:
 		var handler_commands = Utils.Set.from_array(command_handler.provided_commands())
 		if handler_commands.has(command_chunks[0]):
@@ -83,14 +83,14 @@ func _on_edit_text_entered(command):
 				command_chunks[0], Utils.Arr.slice(command_chunks, 1)
 			)
 			if output != null:
-				_text.add_text('\n' + output)
+				_text.add_text("\n" + output)
 	_edit.clear()
 
 
 func _get_node_statistics_string(node, depth = 0):
-	var ret = ''
+	var ret = ""
 	for tuple in _get_node_statistics(node, depth):
-		ret += '\n%-10d %s' % [tuple[1], tuple[0]]
+		ret += "\n%-10d %s" % [tuple[1], tuple[0]]
 	return ret
 
 

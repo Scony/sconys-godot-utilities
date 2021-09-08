@@ -1,9 +1,9 @@
 tool
 extends Sprite
 
-export (Color) var color = Color.white setget _set_color
-export (int) var radius = 15 setget _set_radius
-export (int) var internal_radius = 0 setget _set_internal_radius
+export(Color) var color = Color.white setget _set_color
+export(int) var radius = 15 setget _set_radius
+export(int) var internal_radius = 0 setget _set_internal_radius
 
 
 func _ready():
@@ -12,9 +12,9 @@ func _ready():
 
 func _change_texture():
 	var script = get_script()
-	if not script.has_meta('cache') or Engine.is_editor_hint():
-		script.set_meta('cache', {})
-	var cache = script.get_meta('cache')
+	if not script.has_meta("cache") or Engine.is_editor_hint():
+		script.set_meta("cache", {})
+	var cache = script.get_meta("cache")
 	var color_hash = color.to_rgba32()
 	if not color_hash in cache:
 		cache[color_hash] = {}

@@ -4,7 +4,7 @@ export var margin := 1
 export var movement_speed := 1000
 export var zoom_min := 0.1
 export var zoom_max := 2.0
-export (Rect2) var bounding_box = null setget _set_bounding_box
+export(Rect2) var bounding_box = null setget _set_bounding_box
 
 var bounding_planes = []
 

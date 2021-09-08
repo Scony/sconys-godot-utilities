@@ -1,9 +1,9 @@
 tool
 extends Node
 
-const Region = preload('Region.gd')
-const SetBase = preload('Set.gd')
-const Plane2D = preload('Plane2D.gd')
+const Region = preload("Region.gd")
+const SetBase = preload("Set.gd")
+const Plane2D = preload("Plane2D.gd")
 
 
 func normalize_pos_to_tile_center(pos, tm):
@@ -32,7 +32,7 @@ class Scene:
 		parent.add_child(new)
 
 	static func is_standalone(ref):
-		return ref.get_parent() == ref.get_node('/root')
+		return ref.get_parent() == ref.get_node("/root")
 
 
 class Nod:
@@ -92,7 +92,7 @@ class NodTree:
 
 	static func find_nodes(start, name):
 		var node_gatherer = NodeGathererByName.new(name)
-		traverse(start, node_gatherer, '_gather_if_name_matches')
+		traverse(start, node_gatherer, "_gather_if_name_matches")
 		return node_gatherer.get_nodes()
 
 
@@ -171,7 +171,7 @@ class Dict:
 	static func deepget(dict, path_of_keys, default = null):
 		# TODO: docstring
 		# TODO: tests & corner cases
-		var keys = path_of_keys.split(':')
+		var keys = path_of_keys.split(":")
 		if keys.empty():
 			return default
 		var current_node = dict
@@ -196,6 +196,16 @@ class Float:
 class Vec2:
 	static func approx_eq(a: Vector2, b: Vector2, epsilon):
 		return a.distance_to(b) <= epsilon
+
+
+class Collections:
+	static func counter(arr):
+		var stats = {}
+		for element in arr:
+			if not element in stats:
+				stats[element] = 0
+			stats[element] += 1
+		return stats
 
 
 class Arr:
@@ -266,13 +276,13 @@ class Format:
 		for key in rows[0]:
 			var key_padding = len(key) + 5
 			key_paddings[key] = key_padding
-			var fmt = '%' + str(key_paddings[key]) + 's'
+			var fmt = "%" + str(key_paddings[key]) + "s"
 			text += fmt % key
 		text += "\n"
 		for row in rows:
 			for key in row:
 				var val = row[key]
-				var fmt = '%' + str(key_paddings[key]) + 's'
+				var fmt = "%" + str(key_paddings[key]) + "s"
 				text += fmt % str(val)
 			text += "\n"
 		return text
@@ -569,7 +579,7 @@ class Navi2D:
 		return irregular_path
 
 	static func get_longest_path_towards_target(
-		navigation_2d, source, destination, samples_num = 10, func_name = 'get_simple_path'
+		navigation_2d, source, destination, samples_num = 10, func_name = "get_simple_path"
 	):
 		"""returns a path which end is as close to destination as possible"""
 		var step = 1.0 / samples_num
@@ -634,9 +644,9 @@ class FileSystem:
 		var file_paths = []
 		while true:
 			var file_name = directory.get_next()
-			if file_name == '':
+			if file_name == "":
 				break
-			file_paths.append('{0}/{1}'.format([path, file_name]))
+			file_paths.append("{0}/{1}".format([path, file_name]))
 		directory.list_dir_end()
 		return file_paths
 

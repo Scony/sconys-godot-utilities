@@ -10,7 +10,7 @@ export var movement_speed := 1.1
 export var rotation_speed := 0.005
 export var camera_size_min := 1
 export var camera_size_max := 20
-export (int, LAYERS_3D_PHYSICS) var collision_mask := 0
+export(int, LAYERS_3D_PHYSICS) var collision_mask := 0
 
 var _movement_vector_2d = Vector2(0, 0)
 var _pivot_point_2d = null
@@ -68,8 +68,8 @@ func get_ray_intersection(mouse_pos = null, a_collision_mask = collision_mask):
 	var ray_end = ray_begin + project_ray_normal(mouse_pos) * 1000
 	var space_state = get_world().direct_space_state
 	var ray_intersection = space_state.intersect_ray(ray_begin, ray_end, [], a_collision_mask)
-	if 'position' in ray_intersection:
-		return ray_intersection['position']
+	if "position" in ray_intersection:
+		return ray_intersection["position"]
 	return null
 
 

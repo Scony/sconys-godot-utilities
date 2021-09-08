@@ -1,8 +1,8 @@
 tool
 extends Button
 
-export (float, 0, 1, 0.01) var reduction_factor = 0.0 setget _set_reduction_factor
-export (Texture) var reducible_icon = null setget _set_reducible_icon_texture
+export(float, 0, 1, 0.01) var reduction_factor = 0.0 setget _set_reduction_factor
+export(Texture) var reducible_icon = null setget _set_reducible_icon_texture
 
 var _nine_patch_rect
 
@@ -21,7 +21,7 @@ func _ready():
 	_setup_nine_patch_rect_size()
 	center_container.add_child(_nine_patch_rect)
 	add_child(center_container)
-	connect('resized', self, '_setup_nine_patch_rect_size')
+	connect("resized", self, "_setup_nine_patch_rect_size")
 
 
 func _set_reduction_factor(factor):
