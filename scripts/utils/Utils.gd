@@ -434,6 +434,32 @@ class Img:
 		texture.create_from_image(image_copy, 0)
 		return texture
 
+	static func crop_image_to_shape(source_image, shape_image):
+		var image_size = source_image.get_size()
+		var image = Image.new()
+		image.create(image_size.x, image_size.y, false, Image.FORMAT_RGBA8)
+		var adjusted_shape_image = Image.new()
+		adjusted_shape_image.create_from_data(
+			shape_image.get_size().x,
+			shape_image.get_size().y,
+			false,
+			shape_image.get_format(),
+			shape_image.get_data()
+		)
+		adjusted_shape_image.resize(image_size.x, image_size.y, Image.INTERPOLATE_CUBIC)
+		source_image.lock()
+		image.lock()
+		adjusted_shape_image.lock()
+		for x in range(image_size.x):
+			for y in range(image_size.y):
+				var pixel_pos = Vector2(x, y)
+				if adjusted_shape_image.get_pixelv(pixel_pos).a != 0.0:
+					image.set_pixelv(pixel_pos, source_image.get_pixelv(pixel_pos))
+		adjusted_shape_image.unlock()
+		image.unlock()
+		source_image.unlock()
+		return image
+
 
 class HexTileMap:
 	class XOffset:
