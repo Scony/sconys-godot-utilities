@@ -32,6 +32,10 @@ func size():
 	return _positions.size()
 
 
+func empty():
+	return size() == 0
+
+
 func has(position):
 	return _positions.has(position)
 
@@ -43,6 +47,10 @@ func peek():
 
 func add(position):
 	_positions.add(position)
+
+
+func erase(position):
+	_positions.erase(position)
 
 
 func merge(positions):
@@ -194,6 +202,13 @@ func get_moore_border():
 				border.add(position)
 				break
 	return border.to_array()
+
+
+func pop_moore_border():
+	"""border inside the region"""
+	var border = get_moore_border()
+	subtract(border)
+	return border
 
 
 func get_moore_hull():
