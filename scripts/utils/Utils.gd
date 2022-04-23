@@ -87,11 +87,16 @@ class NodTree:
 			if node.name == _name:
 				_nodes.append(node)
 
-	static func traverse(start, object, function_name):
+	static func traverse(start, object, function_name, args = []):
 		var nodes_to_visit = [start]
 		while not nodes_to_visit.empty():
 			var visited_node = nodes_to_visit.pop_back()
-			object.call(function_name, visited_node)
+			if args.empty():
+				object.call(function_name, visited_node)
+			elif args.size() == 1:
+				object.call(function_name, visited_node, args[0])
+			else:
+				assert(false, "not implemented")
 			nodes_to_visit += visited_node.get_children()
 
 	static func find_nodes(start, name):
