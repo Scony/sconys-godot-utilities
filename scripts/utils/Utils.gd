@@ -4,6 +4,7 @@ extends Node
 const Region = preload("Region.gd")
 const SetBase = preload("Set.gd")
 const Plane2D = preload("Plane2D.gd")
+const SelfCleaningTimer = preload("res://addons/sconys-godot-utilities/nodes/SelfCleaningTimer.gd")
 
 
 func normalize_pos_to_tile_center(pos, tm):
@@ -691,3 +692,12 @@ class RNG:
 		var rng = RandomNumberGenerator.new()
 		rng.seed = a_seed
 		return rng
+
+
+class Tim3r:
+	static func create(node, time):
+		var timer_node = SelfCleaningTimer.new()
+		timer_node.one_shot = true
+		node.add_child(timer_node)
+		timer_node.start(time)
+		return timer_node
