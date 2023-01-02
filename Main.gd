@@ -1,6 +1,8 @@
 tool
 extends EditorPlugin
 
+const UTILS_AUTOLOAD = "Utilities"
+
 
 func _enter_tree():
 	add_custom_type(
@@ -12,10 +14,12 @@ func _enter_tree():
 		preload("./nodes/ReducedTextureButton.gd"),
 		preload("./assets/icons/Control.svg")
 	)
-	add_autoload_singleton("Utils", "res://addons/sconys-godot-utilities/scripts/utils/Utils.tscn")
+	add_autoload_singleton(
+		UTILS_AUTOLOAD, "res://addons/sconys-godot-utilities/scripts/utils/Utils.tscn"
+	)
 
 
 func _exit_tree():
-	remove_autoload_singleton("Utils")
+	remove_autoload_singleton(UTILS_AUTOLOAD)
 	remove_custom_type("ReducedTextureButton")
 	remove_custom_type("Circle2D")
